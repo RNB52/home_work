@@ -1,0 +1,72 @@
+Задача 1:
+
+Создаем базу данных:
+create database users;
+
+Создаем в этой базе таблицу:
+create table users(id serial primary key, sex varchar(1), name varchar(10), mail varchar(25));
+
+Заполняем таблицу данными:
+insert into users(id, sex, name, mail)  
+values 
+      ('1', 'm', 'Vasya', 'mmm@mail.com'),
+      ('2', 'm', 'Alex', 'mmm@gmail.com'),
+      ('3', 'm', 'Alexey', 'alexey@gmail.com'),
+      ('4', 'f', 'Helen', 'hell@gmail.com'),
+      ('5', 'f', 'Jenny', 'eachup@gmail.com'),
+      ('6', 'f', 'Lora', 'tpicks@gmail.com');
+
+Запрос на показ всей таблицы:
+select * from users; 
+                       
+Получаем результат:
+
+ id | sex |  name  |       mail
+----+-----+--------+------------------
+  1 | m   | Vasya  | mmm@mail.com
+  2 | m   | Alex   | mmm@gmail.com
+  3 | m   | Alexey | alexey@gmail.com
+  4 | f   | Helen  | hell@gmail.com
+  5 | f   | Jenny  | eachup@gmail.com
+  6 | f   | Lora   | tpicks@gmail.com
+---------------------------------------------------------------------------------------------------------------------
+
+
+Задача 2
+
+Вывести следующие строки:
+We have 3 boys! 
+We have 3 girls!
+
+Запрос на вывод:
+
+Способ 1:
+select concat ('We have ', count(sex), ' boys!') from users where sex like 'm'
+union
+select concat ('We have ', count(sex), ' girls!') from users where sex like 'f';
+
+Способ 2:
+select
+case when sex like 'm' then concat ('We have ', count(sex), ' boys!')
+when sex = 'f' then concat ('We have ', count(sex), ' girls!')
+end
+from users group by sex;
+---------------------------------------------------------------------------------------------------------------------
+
+
+Задача 3
+
+Вывести следующие строки:
+This is Vasya, he has email mmm@mail.com
+This is Alex, he has email mmm@gmail.com
+This is Alexey, he has email alexey@gmail.com
+This is Helen, she has email hell@gmail.com
+This is Jenny, she has email eachup@gmail.com
+This is Lora, she has email tpicks@gmail.com
+
+Запрос на вывод:
+select
+case when sex = 'm' then concat ('This is ', name,',  he has email ', mail)
+when sex = 'f' then concat ('This is ', name, ', she has email ', mail)
+end
+from users;
